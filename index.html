@@ -60,7 +60,7 @@
             <div class="character-info">
                 <h3 class="char-name glitch-text" data-text="LDemons">LDemons</h3>
                 <p class="char-class">[ INGENIERO EN INFORMÁTICA ]</p>
-                <p class="char-level">LVL <span class="level-number">24</span></p>
+                <p class="char-level">LVL <span class="level-number">22</span></p>
             </div>
 
             <!-- Stats -->
@@ -591,6 +591,30 @@
 
             </div>
         </main>
+    </div>
+
+    <!-- GLaDOS Audio Player -->
+    <div id="glados-player" class="audio-player-widget">
+        <div class="player-header">
+            <span class="player-title">♪ STILL ALIVE</span>
+            <button id="close-player" class="player-close">×</button>
+        </div>
+        <div class="player-controls">
+            <button id="play-pause-btn" class="control-btn">
+                <span class="play-icon">▶</span>
+            </button>
+            <div class="volume-control">
+                <span class="volume-icon">🔊</span>
+                <input type="range" id="volume-slider" min="0" max="100" value="50" class="volume-slider">
+            </div>
+        </div>
+        <div class="player-progress">
+            <span id="current-time">0:00</span>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <span id="duration">0:00</span>
+        </div>
     </div>
 
     <script src="script.js"></script>
