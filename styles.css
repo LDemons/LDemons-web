@@ -40,9 +40,12 @@ body {
     color: var(--color-text);
     overflow-x: hidden;
     line-height: 1.6;
-    /* CRT Blur Effect */
+    /* CRT Blur Effect - REACTIVADO PARA PRUEBA */
     filter: blur(0.3px);
     text-shadow: 0 0 1px rgba(255, 255, 255, 0.1);
+    /* Estabilizar el scroll */
+    overflow-anchor: none;
+    scroll-behavior: auto;
 }
 
 body::before {
@@ -137,17 +140,18 @@ a {
     left: 0;
     width: 100%;
     height: 100%;
+    will-change: clip, transform;
 }
 
 .glitch-text::before {
-    left: 2px;
+    transform: translateX(2px) translateZ(0);
     text-shadow: -2px 0 var(--color-secondary);
     animation: glitch-1 0.3s infinite;
     clip: rect(44px, 450px, 56px, 0);
 }
 
 .glitch-text::after {
-    left: -2px;
+    transform: translateX(-2px) translateZ(0);
     text-shadow: -2px 0 var(--color-primary);
     animation: glitch-2 0.3s infinite;
     clip: rect(44px, 450px, 56px, 0);
@@ -196,12 +200,15 @@ a {
     pointer-events: none;
     z-index: 9998;
     opacity: 0.15;
-    animation: scanline-move 8s linear infinite;
+    /* animation: scanline-move 8s linear infinite; */
+    will-change: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 @keyframes scanline-move {
-    0% { transform: translateY(0); }
-    100% { transform: translateY(4px); }
+    0% { transform: translate3d(0, 0, 0); }
+    100% { transform: translate3d(0, 4px, 0); }
 }
 
 .noise {
@@ -211,14 +218,18 @@ a {
     pointer-events: none;
     opacity: 0.05;
     z-index: 9997;
-    animation: noise-move 0.3s steps(2) infinite;
+    /* Animación deshabilitada - causaba movimiento del scroll */
+    /* animation: noise-move 0.3s steps(2) infinite; */
+    will-change: auto;
+    transform: translateZ(0);
+    backface-visibility: hidden;
 }
 
 @keyframes noise-move {
-    0%, 100% { transform: translate(0, 0); }
-    25% { transform: translate(-1%, -1%); }
-    50% { transform: translate(1%, 0); }
-    75% { transform: translate(0, 1%); }
+    0%, 100% { transform: translate3d(0, 0, 0); }
+    25% { transform: translate3d(-1px, -1px, 0); }
+    50% { transform: translate3d(1px, 0, 0); }
+    75% { transform: translate3d(0, 1px, 0); }
 }
 
 /* ========================================
@@ -248,9 +259,10 @@ a {
     gap: var(--space-lg);
     position: sticky;
     top: 0;
-    height: 100vh;
+    max-height: 100vh;
     overflow-y: auto;
     z-index: 100;
+    align-self: flex-start;
 }
 
 .panel-header {
@@ -419,7 +431,7 @@ a {
     position: absolute;
     inset: 0;
     background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
-    animation: shimmer 2s infinite;
+    /* animation: shimmer 2s infinite; */
 }
 
 @keyframes shimmer {
@@ -435,40 +447,81 @@ a {
 
 /* Spotify Player */
 .spotify-section {
-    border-top: 1px solid var(--color-gray);
-    border-bottom: 1px solid var(--color-gray);
-    padding: var(--space-md) 0;
+    margin: var(--space-md) 0;
+    padding: var(--space-md);
+    background: linear-gradient(135deg, rgba(255, 20, 147, 0.05), rgba(255, 0, 255, 0.05));
+    border: 2px solid var(--color-primary);
+    border-radius: 4px;
+    box-shadow: 
+        0 0 10px rgba(255, 20, 147, 0.3),
+        inset 0 0 20px rgba(255, 20, 147, 0.1);
+    position: relative;
+}
+
+.spotify-section::before {
+    content: '';
+    position: absolute;
+    top: -2px;
+    left: -2px;
+    right: -2px;
+    bottom: -2px;
+    background: linear-gradient(45deg, var(--color-primary), var(--color-secondary));
+    border-radius: 4px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    z-index: -1;
+}
+
+.spotify-section:hover::before {
+    opacity: 0.1;
 }
 
 .spotify-header {
     display: flex;
     align-items: center;
+    justify-content: center;
     gap: var(--space-xs);
-    margin-bottom: var(--space-sm);
-    font-size: 0.75rem;
+    margin-bottom: var(--space-md);
+    font-size: 0.7rem;
     color: var(--color-primary);
+    text-shadow: 0 0 5px var(--color-primary);
+    font-family: var(--font-pixel);
+    letter-spacing: 2px;
+    padding-bottom: var(--space-sm);
+    border-bottom: 1px solid rgba(255, 20, 147, 0.3);
 }
 
 .spotify-icon {
-    font-size: 1rem;
+    font-size: 1.2rem;
     animation: pulse 2s infinite;
+    filter: drop-shadow(0 0 5px var(--color-primary));
 }
 
 .spotify-title {
     font-weight: bold;
-    letter-spacing: 1px;
+    letter-spacing: 2px;
 }
 
 .spotify-player {
     width: 100%;
     overflow: hidden;
-    border: 1px solid var(--color-gray);
+    border: 2px solid rgba(255, 20, 147, 0.4);
     border-radius: 8px;
+    height: 352px;
+    min-height: 352px;
+    contain: layout style paint;
+    box-shadow: 
+        inset 0 0 10px rgba(0, 0, 0, 0.5),
+        0 4px 10px rgba(0, 0, 0, 0.3);
+    background: rgba(0, 0, 0, 0.3);
 }
 
 .spotify-player iframe {
     display: block;
     background: transparent;
+    width: 100%;
+    height: 352px;
+    border-radius: 6px;
 }
 
 /* Navigation */
@@ -538,7 +591,8 @@ a {
 .content-area {
     flex: 1;
     padding: var(--space-xl);
-    overflow-y: auto;
+    min-height: 100vh;
+    overflow-x: hidden;
 }
 
 .content-header {
@@ -662,6 +716,8 @@ a {
     display: flex;
     flex-wrap: wrap;
     gap: var(--space-sm);
+    max-width: 100%;
+    overflow-x: hidden;
 }
 
 .tech-tag {
@@ -774,6 +830,8 @@ a {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     gap: var(--space-lg);
+    width: 100%;
+    max-width: 100%;
 }
 
 .inventory-item {
@@ -796,7 +854,7 @@ a {
 }
 
 .inventory-item:hover {
-    transform: translateY(-5px);
+    transform: translateY(-5px) translateZ(0);
 }
 
 /* Rarity Colors */
@@ -870,12 +928,16 @@ a {
     font-size: 0.875rem;
     transition: var(--transition);
     margin-top: var(--space-sm);
+    position: relative;
+    z-index: 10;
+    cursor: pointer;
 }
 
 .item-link:hover {
     background: var(--color-primary);
     color: var(--color-bg);
     box-shadow: var(--shadow-glow);
+    transform: translateY(-2px);
 }
 
 /* ========================================
@@ -1030,6 +1092,9 @@ a {
 .terminal-output {
     min-height: 200px;
     margin-bottom: var(--space-md);
+    /* Añadir estas propiedades para estabilizar el scroll */
+    scroll-behavior: smooth;
+    overflow-anchor: none; /* Evita el auto-scroll del navegador */
 }
 
 .terminal-line {

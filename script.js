@@ -87,6 +87,32 @@ function pad(num) {
 }
 
 // ========================================
+// AGE CALCULATOR
+// ========================================
+function calculateAge() {
+    const birthDate = new Date('2004-02-18'); // 18 de febrero de 2004
+    const today = new Date();
+    
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const monthDiff = today.getMonth() - birthDate.getMonth();
+    
+    // Si aún no ha cumplido años este año, restar 1
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
+        age--;
+    }
+    
+    const ageElement = document.getElementById('age');
+    if (ageElement) {
+        ageElement.textContent = age;
+    }
+}
+
+// Calcular edad al cargar la página
+document.addEventListener('DOMContentLoaded', () => {
+    calculateAge();
+});
+
+// ========================================
 // TERMINAL FUNCTIONALITY
 // ========================================
 const terminalForm = document.getElementById('terminal-form');
@@ -197,10 +223,14 @@ const observerOptions = {
     rootMargin: '0px'
 };
 
+const animatedElements = new Set();
+
 const observer = new IntersectionObserver((entries) => {
     entries.forEach(entry => {
-        if (entry.isIntersecting) {
+        if (entry.isIntersecting && !animatedElements.has(entry.target)) {
             animateStats(entry.target);
+            animatedElements.add(entry.target);
+            observer.unobserve(entry.target);
         }
     });
 }, observerOptions);
@@ -249,11 +279,14 @@ function randomGlitch() {
 }
 
 // Trigger random glitch every 8-15 seconds
+// Deshabilitado temporalmente para evitar problemas con el scroll
+/*
 setInterval(() => {
     if (Math.random() > 0.5) {
         randomGlitch();
     }
 }, Math.random() * 7000 + 8000);
+*/
 
 // ========================================
 // PARTICLE/DECORATION SYSTEM (OPTIONAL)
@@ -292,11 +325,14 @@ function createParticle() {
 }
 
 // Spawn particles occasionally (very subtle)
+// Deshabilitado temporalmente para evitar problemas con el scroll
+/*
 setInterval(() => {
     if (Math.random() > 0.7) {
         createParticle();
     }
 }, 2000);
+*/
 
 // ========================================
 // KEYBOARD SHORTCUTS
@@ -327,25 +363,6 @@ document.addEventListener('keydown', (e) => {
             }
         }
     }
-});
-
-// ========================================
-// SMOOTH SCROLL
-// ========================================
-document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-    anchor.addEventListener('click', function (e) {
-        const href = this.getAttribute('href');
-        if (href !== '#') {
-            e.preventDefault();
-            const target = document.querySelector(href);
-            if (target) {
-                target.scrollIntoView({
-                    behavior: 'smooth',
-                    block: 'start'
-                });
-            }
-        }
-    });
 });
 
 // ========================================
@@ -461,12 +478,15 @@ function activateGLaDOSMode() {
         setupPlayerControls();
     }
     
-    // Limpiar terminal para la letra
+    // Limpiar terminal y mostrar barra de carga
     const terminalOutput = document.getElementById('terminal-output');
     if (terminalOutput) {
         terminalOutput.innerHTML = '<p class="terminal-line success">[ GLaDOS PROTOCOL ACTIVATED ]</p>' +
             '<p class="terminal-line">Playing: Still Alive - Jonathan Coulton</p>' +
             '<p class="terminal-line">---</p>';
+        
+        // Mostrar barra de carga
+        showLoadingBar(terminalOutput);
     }
     
     // Iniciar reproducción y sincronización de letras
@@ -475,12 +495,17 @@ function activateGLaDOSMode() {
         addTerminalLine('> Audio playback requires user interaction', 'error');
     });
     
-    // Iniciar sincronización de letras
-    startLyricsSync();
+    // Iniciar sincronización de letras después de la barra de carga
+    setTimeout(() => {
+        startLyricsSync();
+    }, 7000); // Esperar 7 segundos para la barra de carga
 }
 
 function deactivateGLaDOSMode() {
     gladosMode = false;
+    
+    // Resetear bandera del logo
+    window.apertureLogoShown = false;
     
     // Restaurar colores originales
     document.documentElement.style.setProperty('--color-primary', '#ff1493');
@@ -540,12 +565,21 @@ function startLyricsSync() {
         }
         
         // Si la canción terminó
-        if (currentTime >= audioPlayer.duration - 1) {
+        if (currentTime >= audioPlayer.duration - 1 && !window.apertureLogoShown) {
+            window.apertureLogoShown = true;
             clearInterval(lyricsInterval);
+            
+            // Mostrar logo 1 segundo después
             setTimeout(() => {
                 displayLyric(' ', '');
-                displayLyric('> [END OF TRANSMISSION]', 'success');
-            }, 2000);
+                displayCakeArt();
+                
+                // Mensaje de fin después del logo
+                setTimeout(() => {
+                    displayLyric(' ', '');
+                    displayLyric('> [END OF TRANSMISSION]', 'success');
+                }, 3000);
+            }, 1000);
         }
     }, 100);
     
@@ -556,6 +590,30 @@ function startLyricsSync() {
             clearInterval(lyricsInterval);
         }
     });
+}
+
+function showLoadingBar(terminalOutput) {
+    const loadingLine = document.createElement('p');
+    loadingLine.className = 'terminal-line';
+    loadingLine.style.color = '#ff9900';
+    loadingLine.textContent = '> Initializing: [';
+    terminalOutput.appendChild(loadingLine);
+    
+    let progress = 0;
+    const totalBars = 20;
+    const loadInterval = setInterval(() => {
+        progress++;
+        const filled = '█'.repeat(progress);
+        const empty = '░'.repeat(totalBars - progress);
+        loadingLine.textContent = `> Initializing: [${filled}${empty}] ${Math.floor((progress / totalBars) * 100)}%`;
+        
+        if (progress >= totalBars) {
+            clearInterval(loadInterval);
+            setTimeout(() => {
+                loadingLine.textContent = '> Initialization complete.';
+            }, 200);
+        }
+    }, 300);
 }
 
 function displayLyric(text, style = '') {
@@ -572,19 +630,22 @@ function displayLyric(text, style = '') {
     // Agregar línea de letra
     const p = document.createElement('p');
     p.className = `terminal-line ${style}`;
+    p.textContent = ''; // Empezar vacío
     terminalOutput.appendChild(p);
     
     // Efecto de escritura tipo máquina de escribir
     let charIndex = 0;
-    const typingSpeed = 50; // Velocidad en milisegundos por carácter
+    const typingSpeed = 30; // Velocidad en milisegundos por carácter
     
     function typeChar() {
         if (charIndex < text.length) {
             p.textContent += text.charAt(charIndex);
             charIndex++;
             
-            // Scroll automático mientras se escribe
-            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            // Scroll suave solo al final del contenedor, no forzado en cada carácter
+            if (terminalOutput.scrollHeight - terminalOutput.scrollTop - terminalOutput.clientHeight < 50) {
+                terminalOutput.scrollTop = terminalOutput.scrollHeight;
+            }
             
             setTimeout(typeChar, typingSpeed);
         }
@@ -598,6 +659,54 @@ function displayLyric(text, style = '') {
     if (lines.length > 25) {
         lines[0].remove();
     }
+}
+
+function displayCakeArt() {
+    const terminalOutput = document.getElementById('terminal-output');
+    if (!terminalOutput) return;
+    
+    const cakeArt = [
+        '            ,:/+/-',
+        '            /M/              .,-=;//;-',
+        '       .:/= ;MH/,    ,=/+%$XH@MM#@:',
+        '      -$##@+$###@H@MMM#######H:.    -/H#',
+        ' .,H@H@ X######@ -H#####@+-     -+H###@X',
+        '  .,@##H;      +XM##M/,     =%@###@X;-',
+        'X%-  :M##########$.    .:%M###@%:',
+        'M##H,   +H@@@$/-.  ,;$M###@%,          -',
+        'M####M=,,---,.-%%H####M$:          ,+@##',
+        '@##################@/.         :%H##@$-',
+        'M###############H,         ;HM##M$=',
+        '#################.    .=$M##M$=',
+        '################H..;XM##M$=          .:+',
+        'M###################@%=           =+@MH%',
+        '@#################M/.         =+H#X%=',
+        '=+M###############M,      ,/X#H+:,',
+        '  .;XM###########H=   ,/X#H+:;',
+        '     .=+HM#######M+/+HM@+=.',
+        '         ,:/%XM####H/.',
+        '              ,.:=-.'
+    ];
+    
+    // Agregar línea vacía antes del arte
+    const emptyLine = document.createElement('p');
+    emptyLine.className = 'terminal-line';
+    emptyLine.textContent = ' ';
+    terminalOutput.appendChild(emptyLine);
+    
+    // Mostrar cada línea del arte ASCII
+    cakeArt.forEach((line, index) => {
+        setTimeout(() => {
+            const p = document.createElement('p');
+            p.className = 'terminal-line';
+            p.textContent = line;
+            p.style.whiteSpace = 'pre';
+            p.style.fontFamily = 'monospace';
+            p.style.color = '#ff9900';
+            terminalOutput.appendChild(p);
+            terminalOutput.scrollTop = terminalOutput.scrollHeight;
+        }, index * 100); // 100ms entre cada línea
+    });
 }
 
 function setupPlayerControls() {
