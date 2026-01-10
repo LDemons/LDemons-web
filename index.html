@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>[ SYSTEM_INIT ] - Portfolio</title>
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <!-- Boot Screen -->
+    <div id="boot-screen" class="boot-screen active">
+        <div class="boot-content">
+            <div class="glitch-text" data-text="[ SYSTEM INIT ]">[ SYSTEM INIT ]</div>
+            <div class="boot-log">
+                <p>> Loading core modules...</p>
+                <p>> Initializing graphics engine...</p>
+                <p>> Compiling shader programs...</p>
+                <p>> Loading character data...</p>
+                <p class="success">> System ready.</p>
+            </div>
+            <div class="press-start">[ PRESS ANY KEY ]</div>
+        </div>
+    </div>
+
+    <!-- Main Interface -->
+    <div id="main-interface" class="main-interface">
+        <!-- Scanlines Effect -->
+        <div class="scanlines"></div>
+        <div class="noise"></div>
+
+        <!-- Side Panel (Character Stats) -->
+        <aside class="side-panel">
+            <div class="panel-header">
+                <span class="pixel-corner tl"></span>
+                <span class="pixel-corner tr"></span>
+                <h2 class="panel-title">[ PLAYER_DATA ]</h2>
+            </div>
+
+            <!-- Avatar -->
+            <div class="avatar-container">
+                <div class="avatar-frame">
+                    <div class="pixel-avatar">
+                        <!-- Avatar image -->
+                        <img src="src/img/44211028.jpg" alt="LuckyDemon Avatar" class="avatar-image">
+                    </div>
+                </div>
+                <div class="status-indicator">
+                    <span class="status-dot"></span>
+                    <span>ONLINE</span>
+                </div>
+            </div>
+
+            <!-- Basic Info -->
+            <div class="character-info">
+                <h3 class="char-name glitch-text" data-text="LDemons">LDemons</h3>
+                <p class="char-class">[ INGENIERO EN INFORMÁTICA ]</p>
+                <p class="char-level">LVL <span class="level-number">24</span></p>
+            </div>
+
+            <!-- Stats -->
+            <div class="stats-section">
+                <div class="stat-item">
+                    <span class="stat-label">STR</span>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="--stat-value: 90%"></div>
+                    </div>
+                    <span class="stat-value">90</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">INT</span>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="--stat-value: 95%"></div>
+                    </div>
+                    <span class="stat-value">95</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">DEX</span>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="--stat-value: 88%"></div>
+                    </div>
+                    <span class="stat-value">88</span>
+                </div>
+                <div class="stat-item">
+                    <span class="stat-label">LUK</span>
+                    <div class="stat-bar">
+                        <div class="stat-fill" style="--stat-value: 85%"></div>
+                    </div>
+                    <span class="stat-value">85</span>
+                </div>
+            </div>
+
+            <!-- Spotify Player -->
+            <div class="spotify-section">
+                <div class="spotify-header">
+                    <span class="spotify-icon">[♪]</span>
+                    <span class="spotify-title">NOW PLAYING</span>
+                </div>
+                <div class="spotify-player">
+                    <iframe style="border-radius:8px" 
+                        src="https://open.spotify.com/embed/playlist/1sWhM4OPYyefTtc0tyYJ8z?utm_source=generator" 
+                        width="100%" 
+                        height="152" 
+                        frameBorder="0" 
+                        allowfullscreen="" 
+                        allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture" 
+                        loading="lazy">
+                    </iframe>
+                </div>
+            </div>
+
+            <!-- Navigation Menu -->
+            <nav class="main-nav">
+                <ul class="nav-menu">
+                    <li><a href="#profile" data-section="profile" class="nav-item active">
+                        <span class="nav-icon">▸</span> PROFILE
+                    </a></li>
+                    <li><a href="#skills" data-section="skills" class="nav-item">
+                        <span class="nav-icon">▸</span> SKILLS
+                    </a></li>
+                    <li><a href="#inventory" data-section="inventory" class="nav-item">
+                        <span class="nav-icon">▸</span> PROJECTS
+                    </a></li>
+                    <li><a href="#quests" data-section="quests" class="nav-item">
+                        <span class="nav-icon">▸</span> EXPERIENCE
+                    </a></li>
+                    <li><a href="#contact" data-section="contact" class="nav-item">
+                        <span class="nav-icon">▸</span> CONTACT
+                    </a></li>
+                </ul>
+            </nav>
+
+            <!-- Footer Info -->
+            <div class="panel-footer">
+                <div class="system-info">
+                    <p>SYSTEM v2.0</p>
+                    <p>UPTIME: <span id="uptime">00:00:00</span></p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="content-area">
+            <!-- Header with decorative elements -->
+            <header class="content-header">
+                <div class="header-decoration">
+                    <span class="deco-line"></span>
+                    <span class="deco-square"></span>
+                    <span class="deco-square"></span>
+                    <span class="deco-circle"></span>
+                </div>
+            </header>
+
+            <!-- Sections Container -->
+            <div class="sections-container">
+                
+                <!-- PROFILE Section -->
+                <section id="profile" class="content-section active">
+                    <h1 class="section-title">
+                        <span class="title-bracket">[</span>
+                        <span class="title-text">PROFILE</span>
+                        <span class="title-bracket">]</span>
+                    </h1>
+
+                    <div class="profile-grid">
+                        <div class="profile-card">
+                            <h3 class="card-header">
+                                <span class="card-icon">◆</span>
+                                PRESENTATION
+                            </h3>
+                            <div class="card-content">
+                                <p>Ingeniero en Informática, proactivo y con sólida capacidad de autoaprendizaje.</p>
+                                <p>Cuento con experiencia práctica en soporte de hardware y desarrollo de software utilizando Python y tecnologías web. Apasionado por la tecnología, con habilidades en edición digital y trabajo en equipo.</p>
+                                <p>Busco una oportunidad para aplicar mis conocimientos en desarrollo, bases de datos y contribuir al éxito de futuros proyectos TI.</p>
+                            </div>
+                        </div>
+
+                        <div class="profile-card">
+                            <h3 class="card-header">
+                                <span class="card-icon">◆</span>
+                                SPECIALIZATION
+                            </h3>
+                            <div class="card-content">
+                                <ul class="spec-list">
+                                    <li><span class="bullet">▸</span> Python Development</li>
+                                    <li><span class="bullet">▸</span> Java Development</li>
+                                    <li><span class="bullet">▸</span> Web Technologies</li>
+                                    <li><span class="bullet">▸</span> Database Management</li>
+                                    <li><span class="bullet">▸</span> Hardware Support</li>
+                                </ul>
+                            </div>
+                        </div>
+
+                        <div class="profile-card full-width">
+                            <h3 class="card-header">
+                                <span class="card-icon">◆</span>
+                                TECH_STACK
+                            </h3>
+                            <div class="card-content">
+                                <div class="tech-tags">
+                                    <span class="tech-tag">Python</span>
+                                    <span class="tech-tag">Java</span>
+                                    <span class="tech-tag">JavaScript</span>
+                                    <span class="tech-tag">HTML5/CSS3</span>
+                                    <span class="tech-tag">Bootstrap</span>
+                                    <span class="tech-tag">Django</span>
+                                    <span class="tech-tag">MySQL</span>
+                                    <span class="tech-tag">PL/SQL</span>
+                                    <span class="tech-tag">Git/GitHub</span>
+                                    <span class="tech-tag">VS Code</span>
+                                    <span class="tech-tag">Adobe Suite</span>
+                                    <span class="tech-tag">Windows/Linux</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- SKILLS Section -->
+                <section id="skills" class="content-section">
+                    <h1 class="section-title">
+                        <span class="title-bracket">[</span>
+                        <span class="title-text">SKILLS</span>
+                        <span class="title-bracket">]</span>
+                    </h1>
+
+                    <div class="skills-grid">
+                        <div class="skill-category">
+                            <h3 class="category-title">
+                                <span class="skill-icon">[▲]</span>
+                                PROGRAMMING
+                            </h3>
+                            <div class="skill-list">
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Python</span>
+                                        <span class="skill-level">90</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 90%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Java</span>
+                                        <span class="skill-level">85</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">JavaScript</span>
+                                        <span class="skill-level">80</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 80%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">
+                                <span class="skill-icon">[◉]</span>
+                                WEB DEVELOPMENT
+                            </h3>
+                            <div class="skill-list">
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">HTML/CSS</span>
+                                        <span class="skill-level">95</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 95%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Bootstrap</span>
+                                        <span class="skill-level">88</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 88%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Django</span>
+                                        <span class="skill-level">85</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 85%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="skill-category">
+                            <h3 class="category-title">
+                                <span class="skill-icon">[♦]</span>
+                                DATABASE & TOOLS
+                            </h3>
+                            <div class="skill-list">
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">MySQL</span>
+                                        <span class="skill-level">85</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 85%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">PL/SQL</span>
+                                        <span class="skill-level">80</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 80%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Git/GitHub</span>
+                                        <span class="skill-level">90</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 90%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <h3 class="category-title">
+                                <span class="skill-icon">[■]</span>
+                                SYSTEMS & MULTIMEDIA
+                            </h3>
+                            <div class="skill-list">
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Windows</span>
+                                        <span class="skill-level">92</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 92%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Linux</span>
+                                        <span class="skill-level">75</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 75%"></div>
+                                    </div>
+                                </div>
+                                <div class="skill-bar-item">
+                                    <div class="skill-info">
+                                        <span class="skill-name">Adobe Suite</span>
+                                        <span class="skill-level">70</span>
+                                    </div>
+                                    <div class="skill-progress">
+                                        <div class="skill-progress-fill" style="--skill: 70%"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- PROJECTS/INVENTORY Section -->
+                <section id="inventory" class="content-section">
+                    <h1 class="section-title">
+                        <span class="title-bracket">[</span>
+                        <span class="title-text">PROJECTS</span>
+                        <span class="title-bracket">]</span>
+                    </h1>
+
+                    <div class="inventory-grid">
+                        <div class="inventory-item legendary">
+                            <div class="item-rarity">[ LEGENDARY ]</div>
+                            <div class="item-icon">[★]</div>
+                            <h3 class="item-name">Ticketera Prime</h3>
+                            <p class="item-description">Solución multiplataforma para la administración de incidencias TI con panel de control, métricas y visualización de datos en tiempo real.</p>
+                            <div class="item-stats">
+                                <span class="item-tag">Python</span>
+                                <span class="item-tag">Django</span>
+                                <span class="item-tag">REST API</span>
+                                <span class="item-tag">Flutter</span>
+                                <span class="item-tag">Dart</span>
+                                <span class="item-tag">SQLite/SQL</span>
+                            </div>
+                            <a href="https://github.com/LDemons" target="_blank" class="item-link">[ VIEW PROJECT ]</a>
+                        </div>
+
+                        <div class="inventory-item epic">
+                            <div class="item-rarity">[ EPIC ]</div>
+                            <div class="item-icon">[▣]</div>
+                            <h3 class="item-name">Te Llevo App</h3>
+                            <p class="item-description">Aplicación híbrida tipo "Uber" enfocada en movilidad estudiantil con autenticación, Route Guards y persistencia de datos (CRUD).</p>
+                            <div class="item-stats">
+                                <span class="item-tag">Ionic</span>
+                                <span class="item-tag">Angular</span>
+                                <span class="item-tag">TypeScript</span>
+                                <span class="item-tag">HTML5/SCSS</span>
+                            </div>
+                            <a href="https://github.com/LDemons" target="_blank" class="item-link">[ VIEW PROJECT ]</a>
+                        </div>
+
+                        <div class="inventory-item rare">
+                            <div class="item-rarity">[ RARE ]</div>
+                            <div class="item-icon">[◆]</div>
+                            <h3 class="item-name">HMPlugin</h3>
+                            <p class="item-description">Plugin de Java para Minecraft con funcionalidades personalizadas y optimizaciones de rendimiento.</p>
+                            <div class="item-stats">
+                                <span class="item-tag">Java</span>
+                                <span class="item-tag">Minecraft API</span>
+                                <span class="item-tag">Plugin Development</span>
+                            </div>
+                            <a href="https://github.com/LDemons/HMPlugin" target="_blank" class="item-link">[ VIEW PROJECT ]</a>
+                        </div>
+
+                        <div class="inventory-item epic">
+                            <div class="item-rarity">[ EPIC ]</div>
+                            <div class="item-icon">[◘]</div>
+                            <h3 class="item-name">Portfolio Experimental</h3>
+                            <p class="item-description">Portfolio web personal con estética retro game, efectos CRT, terminal interactiva y diseño RPG brutalist.</p>
+                            <div class="item-stats">
+                                <span class="item-tag">HTML5</span>
+                                <span class="item-tag">CSS3</span>
+                                <span class="item-tag">JavaScript</span>
+                                <span class="item-tag">Animations</span>
+                            </div>
+                            <a href="https://github.com/LDemons/LDemons-web" target="_blank" class="item-link">[ VIEW PROJECT ]</a>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- EXPERIENCE/QUESTS Section -->
+                <section id="quests" class="content-section">
+                    <h1 class="section-title">
+                        <span class="title-bracket">[</span>
+                        <span class="title-text">EXPERIENCE</span>
+                        <span class="title-bracket">]</span>
+                    </h1>
+
+                    <div class="quests-timeline">
+                        <div class="quest-item completed">
+                            <div class="quest-status">
+                                <span class="quest-icon">✓</span>
+                                <div class="quest-line"></div>
+                            </div>
+                            <div class="quest-content">
+                                <div class="quest-header">
+                                    <h3 class="quest-title">Soporte Técnico y Mantenimiento de Laboratorios</h3>
+                                    <span class="quest-date">DIC 2024 - ENE 2025</span>
+                                </div>
+                                <p class="quest-company">[ Carolina Llona ]</p>
+                                <p class="quest-description">
+                                    Encargado del armado, configuración y mantenimiento preventivo de equipos computacionales en sala de informática. 
+                                    Diagnóstico y resolución de fallas de hardware y software, asegurando la operatividad para los usuarios. 
+                                    Gestión de inventario y ordenamiento de componentes tecnológicos.
+                                </p>
+                                <div class="quest-rewards">
+                                    <span class="reward-badge">+150 XP</span>
+                                    <span class="reward-badge">Hardware</span>
+                                    <span class="reward-badge">Troubleshooting</span>
+                                    <span class="reward-badge">Maintenance</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quest-item completed">
+                            <div class="quest-status">
+                                <span class="quest-icon">✓</span>
+                                <div class="quest-line"></div>
+                            </div>
+                            <div class="quest-content">
+                                <div class="quest-header">
+                                    <h3 class="quest-title">Ingeniería en Informática</h3>
+                                    <span class="quest-date">2022 - 2024</span>
+                                </div>
+                                <p class="quest-company">[ Instituto Profesional Duoc UC ]</p>
+                                <p class="quest-description">
+                                    Formación integral en desarrollo de software, bases de datos, arquitectura de sistemas y metodologías ágiles. 
+                                    Desarrollo de proyectos académicos aplicando tecnologías modernas y buenas prácticas de programación.
+                                </p>
+                                <div class="quest-rewards">
+                                    <span class="reward-badge">+800 XP</span>
+                                    <span class="reward-badge">Software Development</span>
+                                    <span class="reward-badge">Database Design</span>
+                                    <span class="reward-badge">Agile</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="quest-item completed">
+                            <div class="quest-status">
+                                <span class="quest-icon">✓</span>
+                            </div>
+                            <div class="quest-content">
+                                <div class="quest-header">
+                                    <h3 class="quest-title">Curso en Programación</h3>
+                                    <span class="quest-date">2015</span>
+                                </div>
+                                <p class="quest-company">[ Escuela de Verano - Universidad de Chile ]</p>
+                                <p class="quest-description">
+                                    Introducción a la programación y lógica computacional. Primeros pasos en el mundo del desarrollo de software.
+                                </p>
+                                <div class="quest-rewards">
+                                    <span class="reward-badge">+100 XP</span>
+                                    <span class="reward-badge">Programming Basics</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- CONTACT/TERMINAL Section -->
+                <section id="contact" class="content-section">
+                    <h1 class="section-title">
+                        <span class="title-bracket">[</span>
+                        <span class="title-text">CONTACT</span>
+                        <span class="title-bracket">]</span>
+                    </h1>
+
+                    <div class="terminal-container">
+                        <div class="terminal-header">
+                            <span class="terminal-button close"></span>
+                            <span class="terminal-button minimize"></span>
+                            <span class="terminal-button maximize"></span>
+                            <span class="terminal-title">contact_terminal.exe</span>
+                        </div>
+                        <div class="terminal-body">
+                            <div class="terminal-output" id="terminal-output">
+                                <p class="terminal-line">$ system.contact --init</p>
+                                <p class="terminal-line success">Connection established.</p>
+                                <p class="terminal-line">Available commands: email, github, youtube, spotify, phone</p>
+                                <p class="terminal-line prompt">$<span class="cursor">_</span></p>
+                            </div>
+                            <form class="terminal-input-form" id="terminal-form">
+                                <span class="terminal-prompt">$</span>
+                                <input type="text" class="terminal-input" id="terminal-input" autocomplete="off" placeholder="Type a command...">
+                            </form>
+                        </div>
+                    </div>
+
+                    <div class="contact-links">
+                        <a href="mailto:ignacio88gg@gmail.com" class="contact-card">
+                            <span class="contact-icon">[✉]</span>
+                            <div class="contact-info">
+                                <h3>EMAIL</h3>
+                                <p>ignacio88gg@gmail.com</p>
+                            </div>
+                        </a>
+                        <a href="tel:+56968318229" class="contact-card">
+                            <span class="contact-icon">[☎]</span>
+                            <div class="contact-info">
+                                <h3>PHONE</h3>
+                                <p>+56 9 6831 8229</p>
+                            </div>
+                        </a>
+                        <a href="https://github.com/LDemons" target="_blank" class="contact-card">
+                            <span class="contact-icon">[◘]</span>
+                            <div class="contact-info">
+                                <h3>GITHUB</h3>
+                                <p>@LDemons</p>
+                            </div>
+                        </a>
+                        <a href="https://www.youtube.com/@ldemonsavi" target="_blank" class="contact-card">
+                            <span class="contact-icon">[▶]</span>
+                            <div class="contact-info">
+                                <h3>YOUTUBE</h3>
+                                <p>@ldemonsavi</p>
+                            </div>
+                        </a>
+                        <a href="https://open.spotify.com/user/3c8u00p07i0fw0mcz6lhstfmc" target="_blank" class="contact-card">
+                            <span class="contact-icon">[♪]</span>
+                            <div class="contact-info">
+                                <h3>SPOTIFY</h3>
+                                <p>LuckyDemon</p>
+                            </div>
+                        </a>
+                    </div>
+                </section>
+
+            </div>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
