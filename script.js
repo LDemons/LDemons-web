@@ -140,6 +140,16 @@ const commands = {
         response: '> Phone: +56 9 6831 8229\n> Status: Ready to call',
         action: () => window.location.href = 'tel:+56968318229'
     },
+    realme: {
+        response: '> Executing REALME.EXE...\n> WARNING: This will alter your perception of reality\n> Initiating shutdown sequence...',
+        action: () => {
+            setTimeout(() => {
+                if (win97System) {
+                    win97System.activate();
+                }
+            }, 1000);
+        }
+    },
     glados: {
         response: '> "This was a triumph..."\n> Initializing Aperture Science Protocol...\n> Status: Still Alive',
         action: () => activateGLaDOSMode()
@@ -779,6 +789,311 @@ function formatTime(seconds) {
     const secs = Math.floor(seconds % 60);
     return `${mins}:${secs.toString().padStart(2, '0')}`;
 }
+
+// ========================================
+// WINDOWS 97 EASTER EGG SYSTEM
+// ========================================
+
+class Windows97System {
+    constructor() {
+        this.container = document.getElementById('win97-container');
+        this.shutdownScreen = document.getElementById('shutdown-screen');
+        this.bootScreen = document.getElementById('boot97-screen');
+        this.desktop = document.getElementById('win97-desktop');
+        this.startMenu = document.getElementById('start-menu');
+        this.mainInterface = document.getElementById('main-interface');
+        
+        this.currentState = 'NORMAL'; // NORMAL, SHUTTING_DOWN, BOOTING, OS_MODE
+        this.activeWindow = null;
+        this.windowZIndex = 10;
+        
+        this.init();
+    }
+    
+    init() {
+        this.setupDesktopIcons();
+        this.setupWindows();
+        this.setupTaskbar();
+        this.updateTime();
+        setInterval(() => this.updateTime(), 1000);
+    }
+    
+    // ========================================
+    // ACTIVATION SEQUENCE
+    // ========================================
+    async activate() {
+        if (this.currentState !== 'NORMAL') return;
+        
+        // Scroll to top immediately
+        window.scrollTo(0, 0);
+        
+        this.currentState = 'SHUTTING_DOWN';
+        this.container.classList.add('active');
+        document.body.classList.add('win97-active');
+        
+        // Phase 1: Shutdown
+        await this.playShutdownSequence();
+        
+        // Phase 2: Boot
+        await this.playBootSequence();
+        
+        // Phase 3: Show Desktop
+        await this.showDesktop();
+        
+        this.currentState = 'OS_MODE';
+    }
+    
+    async playShutdownSequence() {
+        // Hide main interface with glitch effect
+        this.mainInterface.classList.add('glitch-effect');
+        
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.mainInterface.style.opacity = '0';
+                this.shutdownScreen.classList.add('active');
+                
+                // Shutdown complete after animation
+                setTimeout(resolve, 2500);
+            }, 300);
+        });
+    }
+    
+    async playBootSequence() {
+        this.shutdownScreen.classList.remove('active');
+        this.bootScreen.classList.add('active');
+        
+        return new Promise(resolve => {
+            // Wait for BIOS typewriter + Windows logo animation (extended time)
+            setTimeout(resolve, 9500);
+        });
+    }
+    
+    async showDesktop() {
+        this.bootScreen.classList.remove('active');
+        
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.desktop.classList.add('active');
+                resolve();
+            }, 300);
+        });
+    }
+    
+    // ========================================
+    // EXIT TO REALITY
+    // ========================================
+    async exitToReality() {
+        if (this.currentState !== 'OS_MODE') return;
+        
+        this.currentState = 'SHUTTING_DOWN';
+        
+        // Quick fade out
+        this.desktop.style.opacity = '0';
+        
+        return new Promise(resolve => {
+            setTimeout(() => {
+                this.desktop.classList.remove('active');
+                this.desktop.style.opacity = '1';
+                this.container.classList.remove('active');
+                this.mainInterface.style.opacity = '1';
+                this.mainInterface.classList.remove('glitch-effect');
+                document.body.classList.remove('win97-active');
+                this.currentState = 'NORMAL';
+                
+                // Close all windows
+                document.querySelectorAll('.win97-window').forEach(win => {
+                    win.style.display = 'none';
+                });
+                
+                resolve();
+            }, 500);
+        });
+    }
+    
+    // ========================================
+    // DESKTOP ICONS
+    // ========================================
+    setupDesktopIcons() {
+        const icons = document.querySelectorAll('.desktop-icon');
+        
+        icons.forEach(icon => {
+            icon.addEventListener('dblclick', () => {
+                const fileType = icon.getAttribute('data-file');
+                this.openWindow(fileType);
+            });
+            
+            icon.addEventListener('click', () => {
+                // Remove selection from all icons
+                icons.forEach(i => i.classList.remove('selected'));
+                // Select clicked icon
+                icon.classList.add('selected');
+            });
+        });
+        
+        // Deselect on desktop click
+        this.desktop.addEventListener('click', (e) => {
+            if (e.target === this.desktop || e.target.classList.contains('desktop-bg')) {
+                icons.forEach(i => i.classList.remove('selected'));
+            }
+        });
+    }
+    
+    // ========================================
+    // WINDOWS MANAGEMENT
+    // ========================================
+    openWindow(windowId) {
+        const windowElement = document.getElementById(`window-${windowId}`);
+        if (!windowElement) return;
+        
+        // Show window
+        windowElement.style.display = 'flex';
+        
+        // Center window if first time opening
+        if (!windowElement.style.left) {
+            const rect = windowElement.getBoundingClientRect();
+            windowElement.style.left = `${(window.innerWidth - rect.width) / 2}px`;
+            windowElement.style.top = `${(window.innerHeight - rect.height - 40) / 2}px`;
+        }
+        
+        // Bring to front
+        this.bringToFront(windowElement);
+    }
+    
+    closeWindow(windowElement) {
+        windowElement.style.display = 'none';
+    }
+    
+    bringToFront(windowElement) {
+        this.windowZIndex++;
+        windowElement.style.zIndex = this.windowZIndex;
+        
+        // Remove active class from all windows
+        document.querySelectorAll('.win97-window').forEach(w => {
+            w.classList.remove('active');
+        });
+        
+        // Add active class to this window
+        windowElement.classList.add('active');
+        this.activeWindow = windowElement;
+    }
+    
+    setupWindows() {
+        const windows = document.querySelectorAll('.win97-window');
+        
+        windows.forEach(windowElement => {
+            const titlebar = windowElement.querySelector('.window-titlebar');
+            const closeBtn = windowElement.querySelector('.win-btn.close');
+            const minimizeBtn = windowElement.querySelector('.win-btn.minimize');
+            
+            // Make draggable
+            this.makeDraggable(windowElement, titlebar);
+            
+            // Close button
+            closeBtn.addEventListener('click', () => {
+                this.closeWindow(windowElement);
+            });
+            
+            // Minimize button (just hide for simplicity)
+            minimizeBtn.addEventListener('click', () => {
+                this.closeWindow(windowElement);
+            });
+            
+            // Bring to front on click
+            windowElement.addEventListener('mousedown', () => {
+                this.bringToFront(windowElement);
+            });
+        });
+    }
+    
+    // ========================================
+    // DRAG & DROP
+    // ========================================
+    makeDraggable(element, handle) {
+        let pos1 = 0, pos2 = 0, pos3 = 0, pos4 = 0;
+        
+        handle.onmousedown = dragMouseDown;
+        
+        function dragMouseDown(e) {
+            e.preventDefault();
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            document.onmouseup = closeDragElement;
+            document.onmousemove = elementDrag;
+        }
+        
+        function elementDrag(e) {
+            e.preventDefault();
+            pos1 = pos3 - e.clientX;
+            pos2 = pos4 - e.clientY;
+            pos3 = e.clientX;
+            pos4 = e.clientY;
+            
+            let newTop = element.offsetTop - pos2;
+            let newLeft = element.offsetLeft - pos1;
+            
+            // Keep window within viewport
+            newTop = Math.max(0, Math.min(newTop, window.innerHeight - 100));
+            newLeft = Math.max(0, Math.min(newLeft, window.innerWidth - 100));
+            
+            element.style.top = newTop + "px";
+            element.style.left = newLeft + "px";
+        }
+        
+        function closeDragElement() {
+            document.onmouseup = null;
+            document.onmousemove = null;
+        }
+    }
+    
+    // ========================================
+    // TASKBAR & START MENU
+    // ========================================
+    setupTaskbar() {
+        const startButton = document.querySelector('.start-button');
+        const exitItem = document.querySelector('.exit-item');
+        
+        startButton.addEventListener('click', (e) => {
+            e.stopPropagation();
+            this.startMenu.classList.toggle('active');
+        });
+        
+        // Close start menu on desktop click
+        this.desktop.addEventListener('click', () => {
+            this.startMenu.classList.remove('active');
+        });
+        
+        // Exit to reality
+        exitItem.addEventListener('click', () => {
+            this.exitToReality();
+        });
+    }
+    
+    updateTime() {
+        const trayTime = document.querySelector('.tray-time');
+        if (!trayTime) return;
+        
+        const now = new Date();
+        let hours = now.getHours();
+        const minutes = now.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        
+        hours = hours % 12;
+        hours = hours ? hours : 12;
+        
+        const timeString = `${hours}:${minutes.toString().padStart(2, '0')} ${ampm}`;
+        trayTime.textContent = timeString;
+    }
+}
+
+// Initialize Windows 97 System
+let win97System;
+
+document.addEventListener('DOMContentLoaded', () => {
+    win97System = new Windows97System();
+});
+
 console.log('%cWelcome, traveler.', 'color: #ffffff; font-size: 14px; font-family: monospace;');
 console.log('%cYou found the developer console! 🎮', 'color: #ff00ff; font-size: 12px; font-family: monospace;');
 console.log('%c\nInterested in the code? Check it out on GitHub!', 'color: #00ffff; font-size: 12px; font-family: monospace;');
+console.log('%c\nPsst... try typing "realme" in the contact terminal 👀', 'color: #ffff00; font-size: 11px; font-family: monospace;');
+

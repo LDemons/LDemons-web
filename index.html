@@ -11,7 +11,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@300;400;700&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=JetBrains+Mono:wght@300;400;700&family=Space+Mono:wght@400;700&family=VT323&display=swap" rel="stylesheet">
     
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -617,6 +617,290 @@
                 <div id="progress-fill" class="progress-fill"></div>
             </div>
             <span id="duration">0:00</span>
+        </div>
+    </div>
+
+    <!-- ========================================
+         WINDOWS 97 EASTER EGG SYSTEM
+         ======================================== -->
+    <div id="win97-container" class="win97-container">
+        <!-- Shutdown Screen -->
+        <div id="shutdown-screen" class="shutdown-screen">
+            <div class="shutdown-content">
+                <div class="shutdown-logo">▣</div>
+                <p class="shutdown-text">Shutting down system...</p>
+                <div class="shutdown-bar">
+                    <div class="shutdown-progress"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Boot Screen -->
+        <div id="boot97-screen" class="boot97-screen">
+            <div class="bios-screen">
+                <div class="bios-header">
+                    <p>LDemons BIOS v2.0</p>
+                    <p>Copyright (C) 2004-2026, LuckyDemon Corp.</p>
+                </div>
+                <div class="bios-content">
+                    <p>> Memory Test: 640KB OK</p>
+                    <p>> CPU: Intel Pentium III 733MHz</p>
+                    <p>> Detecting Primary Master... OK</p>
+                    <p>> Loading REALITY.SYS...</p>
+                    <p class="bios-success">> Press any key to continue...</p>
+                </div>
+            </div>
+            <div class="windows-logo">
+                <div class="win-logo-text">Windows 97</div>
+                <div class="win-loading-bar">
+                    <div class="win-loading-fill"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Windows 97 Desktop -->
+        <div id="win97-desktop" class="win97-desktop">
+            <!-- Desktop Background -->
+            <div class="desktop-bg"></div>
+
+            <!-- Desktop Icons -->
+            <div class="desktop-icons">
+                <div class="desktop-icon" data-file="games">
+                    <img src="src/img/windows/Windows 95 - My Computer (16x16).png" class="icon-image-win" alt="Games">
+                    <div class="icon-label">Games.exe</div>
+                </div>
+                <div class="desktop-icon" data-file="music">
+                    <img src="src/img/windows/Windows 95 - MIDI file (16x16).png" class="icon-image-win" alt="Music">
+                    <div class="icon-label">Music</div>
+                </div>
+                <div class="desktop-icon" data-file="anime">
+                    <div class="icon-image">📺</div>
+                    <div class="icon-label">Anime</div>
+                </div>
+                <div class="desktop-icon" data-file="about">
+                    <img src="src/img/windows/Windows 95 - Notepad.png" class="icon-image-win" alt="About me">
+                    <div class="icon-label">About_me.txt</div>
+                </div>
+                <div class="desktop-icon" data-file="secrets">
+                    <img src="src/img/windows/Windows 95 - Recycle Bin (full) (16x16).png" class="icon-image-win" alt="Secrets">
+                    <div class="icon-label">Secrets</div>
+                </div>
+            </div>
+
+            <!-- Windows (Hidden by default) -->
+            <div id="window-games" class="win97-window" style="display: none;">
+                <div class="window-titlebar">
+                    <span class="window-title">
+                        <img src="src/img/windows/Windows 95 - My Computer (16x16).png" class="window-icon" alt="">
+                        Games.exe
+                    </span>
+                    <div class="window-controls">
+                        <button class="win-btn minimize">_</button>
+                        <button class="win-btn maximize">□</button>
+                        <button class="win-btn close">×</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h3>🎮 Mis Videojuegos Favoritos</h3>
+                    <ul class="file-list">
+                        <li>🔫 Counter-Strike 1.6 - El clásico que nunca muere</li>
+                        <li>🌌 Mass Effect Trilogy - La mejor historia del universo</li>
+                        <li>🗡️ The Witcher 3 - Geralt > Todo</li>
+                        <li>🎯 Portal 2 - "The cake is a lie"</li>
+                        <li>⚔️ Dark Souls - Git gud o nada</li>
+                        <li>🏎️ Need For Speed Underground 2 - Tuning puro</li>
+                        <li>👾 Half-Life 2 - Gordon Freeman es mi héroe</li>
+                        <li>🧟 Left 4 Dead 2 - Zombies con amigos</li>
+                        <li>🎲 League of Legends - 10 años y contando...</li>
+                        <li>🎮 Persona 5 - Stylish AF</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div id="window-music" class="win97-window" style="display: none;">
+                <div class="window-titlebar">
+                    <span class="window-title">
+                        <img src="src/img/windows/Windows 95 - MIDI file (16x16).png" class="window-icon" alt="">
+                        Music
+                    </span>
+                    <div class="window-controls">
+                        <button class="win-btn minimize">_</button>
+                        <button class="win-btn maximize">□</button>
+                        <button class="win-btn close">×</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h3>🎶 Mi Universo Musical</h3>
+                    <div class="music-section">
+                        <h4>🎸 Géneros que me definen:</h4>
+                        <ul class="file-list">
+                            <li>🔥 Rock Alternativo / Indie Rock</li>
+                            <li>⚡ Electronic / Synthwave</li>
+                            <li>🌙 Lo-fi / Chill Beats</li>
+                            <li>🎹 Música de Videojuegos (OSTs)</li>
+                            <li>🎭 J-Rock / J-Pop</li>
+                        </ul>
+                        <h4>🎤 Artistas/Bandas favoritas:</h4>
+                        <ul class="file-list">
+                            <li>Arctic Monkeys</li>
+                            <li>The Strokes</li>
+                            <li>Daft Punk</li>
+                            <li>Gorillaz</li>
+                            <li>MGMT</li>
+                            <li>Tame Impala</li>
+                            <li>Porter Robinson</li>
+                            <li>Nujabes (RIP)</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="window-anime" class="win97-window" style="display: none;">
+                <div class="window-titlebar">
+                    <span class="window-title">📺 Anime</span>
+                    <div class="window-controls">
+                        <button class="win-btn minimize">_</button>
+                        <button class="win-btn maximize">□</button>
+                        <button class="win-btn close">×</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h3>📺 Anime & Series</h3>
+                    <div class="anime-section">
+                        <h4>⭐ Top Animes:</h4>
+                        <ul class="file-list">
+                            <li>🥊 Hunter x Hunter - Obra maestra del shonen</li>
+                            <li>🤖 Neon Genesis Evangelion - Mindfuck existencial</li>
+                            <li>🍜 Naruto - Mi infancia en forma de ninja</li>
+                            <li>⚔️ Attack on Titan - Susume!</li>
+                            <li>🎭 Death Note - Battle of minds</li>
+                            <li>🌊 One Piece - El viaje nunca termina</li>
+                            <li>👊 Mob Psycho 100 - 100% epicidad</li>
+                            <li>🎨 Your Name / Weathering With You - Makoto Shinkai❤️</li>
+                            <li>🦾 Fullmetal Alchemist: Brotherhood - Perfección</li>
+                            <li>🔪 Chainsaw Man - Gore y corazón</li>
+                        </ul>
+                        <h4>🎬 Series/Películas:</h4>
+                        <ul class="file-list">
+                            <li>Breaking Bad</li>
+                            <li>Mr. Robot</li>
+                            <li>Black Mirror</li>
+                            <li>The Matrix Trilogy</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <div id="window-about" class="win97-window" style="display: none;">
+                <div class="window-titlebar">
+                    <span class="window-title">
+                        <img src="src/img/windows/Windows 95 - Notepad.png" class="window-icon" alt="">
+                        About_me.txt
+                    </span>
+                    <div class="window-controls">
+                        <button class="win-btn minimize">_</button>
+                        <button class="win-btn maximize">□</button>
+                        <button class="win-btn close">×</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h3>💭 Sobre mí (la versión real)</h3>
+                    <div class="about-text">
+                        <p>Soy Ignacio, pero en internet soy <strong>LDemons</strong> o <strong>LuckyDemon</strong>.</p>
+                        
+                        <p>🎮 Crecí jugando videojuegos. Desde el Age of Empires hasta el LoL actual, los juegos no son solo entretenimiento para mí, son arte, narrativa y comunidad.</p>
+                        
+                        <p>💻 Me enamoré de la programación porque me permite <em>crear mundos</em>. Cada línea de código es una decisión, cada bug es un reto, cada deploy es una pequeña victoria.</p>
+                        
+                        <p>🎵 La música es mi combustible. Código mejor con synthwave, pienso mejor con lo-fi, y vivo mejor con rock alternativo.</p>
+                        
+                        <p>📺 El anime me enseñó a apreciar las historias profundas, los personajes complejos y que el arte puede ir más allá de lo "convencional".</p>
+                        
+                        <p>🌙 Soy una persona nocturna. Las 3 AM son mis horas más productivas. Hay algo mágico en programar mientras el mundo duerme.</p>
+                        
+                        <p>🎯 Mi filosofía: <strong>"Done is better than perfect"</strong> - pero siempre con estilo.</p>
+                        
+                        <p>🔮 Me fascina la estética retro/post-digital. Los CRTs, el pixel art, los glitches... hay belleza en lo imperfecto.</p>
+                        
+                        <p style="margin-top: 20px; font-style: italic; color: #666;">
+                            Si llegaste hasta acá, gracias por tomarte el tiempo de conocerme más allá del portfolio profesional. ✨
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="window-secrets" class="win97-window" style="display: none;">
+                <div class="window-titlebar">
+                    <span class="window-title">
+                        <img src="src/img/windows/Windows 95 - Recycle Bin (full) (16x16).png" class="window-icon" alt="">
+                        Secrets
+                    </span>
+                    <div class="window-controls">
+                        <button class="win-btn minimize">_</button>
+                        <button class="win-btn maximize">□</button>
+                        <button class="win-btn close">×</button>
+                    </div>
+                </div>
+                <div class="window-content">
+                    <h3>🔐 Cosas que casi nadie sabe</h3>
+                    <ul class="file-list secrets-list">
+                        <li>🍕 Puedo comer pizza todos los días y no me aburro nunca</li>
+                        <li>😅 A veces hablo solo mientras programo (debugging verbal?)</li>
+                        <li>📚 Leo fanfiction. Sí, lo admito. Algunas historias son obras maestras</li>
+                        <li>🎮 Tengo más de 2000 horas en League of Legends... no sé si sentirme orgulloso o avergonzado</li>
+                        <li>🌙 Mi hora favorita es 3:33 AM - algo sobre ese número me fascina</li>
+                        <li>☕ No me gusta el café. Lo sé, blasfemia para un programador</li>
+                        <li>🎨 Colecciono wallpapers. Tengo como 500+ guardados</li>
+                        <li>🐱 Prefiero los gatos a los perros (pero amo ambos)</li>
+                        <li>💭 A veces paso horas pensando en universos alternativos y teorías</li>
+                        <li>🎭 Mi guilty pleasure: anime slice of life wholesome</li>
+                    </ul>
+                    <div style="margin-top: 20px; text-align: center; font-size: 12px; color: #888;">
+                        <p>// END OF SECRETS.TXT</p>
+                        <p>// You unlocked the full easter egg! 🎉</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Taskbar -->
+            <div class="taskbar">
+                <button class="start-button">
+                    <img src="src/img/windows/Windows 95 - shell32.dll, icon 40.png" class="start-logo-img" alt="">
+                    <span>Start</span>
+                </button>
+                <div class="taskbar-separator"></div>
+                <div class="taskbar-windows"></div>
+                <div class="system-tray">
+                    <span class="tray-icon">🔊</span>
+                    <span class="tray-time">12:00 AM</span>
+                </div>
+            </div>
+
+            <!-- Start Menu -->
+            <div id="start-menu" class="start-menu">
+                <div class="start-menu-sidebar">
+                    <span class="start-menu-logo">Windows<span>97</span></span>
+                </div>
+                <div class="start-menu-content">
+                    <div class="start-menu-item">
+                        <span class="menu-icon">📁</span>
+                        <span>Programs</span>
+                    </div>
+                    <div class="start-menu-item">
+                        <span class="menu-icon">📄</span>
+                        <span>Documents</span>
+                    </div>
+                    <div class="start-menu-item">
+                        <span class="menu-icon">⚙️</span>
+                        <span>Settings</span>
+                    </div>
+                    <div class="start-menu-separator"></div>
+                    <div class="start-menu-item exit-item">
+                        <span class="menu-icon">🚪</span>
+                        <span>Exit to Reality</span>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
