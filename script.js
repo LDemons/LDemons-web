@@ -144,8 +144,8 @@ const commands = {
         response: '> Executing REALME.EXE...\n> WARNING: This will alter your perception of reality\n> Initiating shutdown sequence...',
         action: () => {
             setTimeout(() => {
-                if (win97System) {
-                    win97System.activate();
+                if (win95System) {
+                    win95System.activate();
                 }
             }, 1000);
         }
@@ -791,15 +791,15 @@ function formatTime(seconds) {
 }
 
 // ========================================
-// WINDOWS 97 EASTER EGG SYSTEM
+// WINDOWS 95 EASTER EGG SYSTEM
 // ========================================
 
-class Windows97System {
+class Windows95System {
     constructor() {
-        this.container = document.getElementById('win97-container');
+        this.container = document.getElementById('win95-container');
         this.shutdownScreen = document.getElementById('shutdown-screen');
-        this.bootScreen = document.getElementById('boot97-screen');
-        this.desktop = document.getElementById('win97-desktop');
+        this.bootScreen = document.getElementById('boot95-screen');
+        this.desktop = document.getElementById('win95-desktop');
         this.startMenu = document.getElementById('start-menu');
         this.mainInterface = document.getElementById('main-interface');
         
@@ -829,7 +829,7 @@ class Windows97System {
         
         this.currentState = 'SHUTTING_DOWN';
         this.container.classList.add('active');
-        document.body.classList.add('win97-active');
+        document.body.classList.add('win95-active');
         
         // Phase 1: Shutdown
         await this.playShutdownSequence();
@@ -897,11 +897,11 @@ class Windows97System {
                 this.container.classList.remove('active');
                 this.mainInterface.style.opacity = '1';
                 this.mainInterface.classList.remove('glitch-effect');
-                document.body.classList.remove('win97-active');
+                document.body.classList.remove('win95-active');
                 this.currentState = 'NORMAL';
                 
                 // Close all windows
-                document.querySelectorAll('.win97-window').forEach(win => {
+                document.querySelectorAll('.win95-window').forEach(win => {
                     win.style.display = 'none';
                 });
                 
@@ -978,7 +978,7 @@ class Windows97System {
     }
     
     setupWindows() {
-        const windows = document.querySelectorAll('.win97-window');
+        const windows = document.querySelectorAll('.win95-window');
         
         windows.forEach(windowElement => {
             const titlebar = windowElement.querySelector('.window-titlebar');
@@ -1085,11 +1085,11 @@ class Windows97System {
     }
 }
 
-// Initialize Windows 97 System
-let win97System;
+// Initialize Windows 95 System
+let win95System;
 
 document.addEventListener('DOMContentLoaded', () => {
-    win97System = new Windows97System();
+    win95System = new Windows95System();
 });
 
 console.log('%cWelcome, traveler.', 'color: #ffffff; font-size: 14px; font-family: monospace;');
